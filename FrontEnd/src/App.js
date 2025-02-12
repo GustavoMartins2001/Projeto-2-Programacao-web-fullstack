@@ -6,7 +6,7 @@ import { CatProvider } from './CatContext';
 
 function App() {
   return (
-    <CatProvider>
+    <CatProvider className="App">
       <Container className="text-center">
         <h1 className="my-4">Busca de Imagens de Gatos</h1>
         <CatImage />
