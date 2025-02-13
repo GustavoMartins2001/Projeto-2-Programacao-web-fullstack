@@ -3,12 +3,14 @@ import axios from 'axios';
 import { Button, Container, Modal, Image, Form, Alert, Badge } from 'react-bootstrap';
 import { createPortal } from 'react-dom';
 import { CatContext } from './CatContext';
+import apiService from './ApiService'
 
 function CatImage() {
   const {breeds } = useContext(CatContext);
   const [selectedBreeds, setSelectedBreeds] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [images, setImages] = useState([]);
+  const [topImages, setTopImages] = useState([]);
   const [error, setError] = useState('');
   const [showModal, setShowModal] = useState(false);
 
@@ -33,6 +35,28 @@ function CatImage() {
     }
   };
 
+  async function getTopImages(){
+    try{
+       return await apiService.getTop5Images();
+    }
+    catch(error) {
+      console.error('Erro ao buscar imagens:', error);
+      setError('Erro ao buscar as imagens. Tente novamente.');
+    }
+  }
+
+  async function likeImage(imageCode){
+    try{
+      console.log(imageCode)
+       return await apiService.LikeImage(imageCode);
+    }
+    catch(error) {
+      console.error('Erro ao dar like na imagem:', error);
+      setError('Erro ao dar like na imagem. Tente novamente.');
+  
+  }
+}
+
   const handleClose = () => {
     setShowModal(false);
     setImages([]);
@@ -53,6 +77,7 @@ function CatImage() {
 
   //-------- Modal para exibir as imagens de gatos e o botão de nova busca --------------
   const CatImagesModal = () => (
+    
     <Modal show={showModal} onHide={handleClose} centered>
       <Modal.Header closeButton>
         <Modal.Title>Imagens de Gatos</Modal.Title>
