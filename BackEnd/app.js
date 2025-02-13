@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-require('./database/createTables');
+require ('./database/createTables');
+const userRoutes = require('./routes/routes');
 
 const app = express();
 
@@ -12,10 +13,11 @@ app.use(cors({
   
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
-
+app.use('/api', userRoutes)
 app.get('/', (req, res) => {
   res.send('Servidor rodando!');
 });
+
 
 const PORT = process.env.PORT || 4200;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

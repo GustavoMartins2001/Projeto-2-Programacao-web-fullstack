@@ -28,36 +28,9 @@ const createTables = async () => {
         await pool.query(createCatimageCode);
         console.log('Tabela "catimagecode" criada ou já existente.');
 
-        const createUserInteraction = `
-            CREATE TABLE IF NOT EXISTS userinteraction (
-                id INT NOT NULL,
-                userId INT NOT NULL,
-                catImageCodeId INT NOT NULL,
-                commentt VARCHAR(200),
-                favourite BOOLEAN,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                PRIMARY KEY (id),
-                CONSTRAINT FK_User_UserInteraction
-                    FOREIGN KEY (userId)
-                    REFERENCES users (id)
-                    ON DELETE CASCADE
-                    ON UPDATE NO ACTION,
-                CONSTRAINT FK_CatImageCode_UserInteraction
-                    FOREIGN KEY (catImageCodeId)
-                    REFERENCES catimagecode (id)
-                    ON DELETE CASCADE
-                    ON UPDATE NO ACTION);
-                    `;
-
-        await pool.query(createUserInteraction);
-        console.log('Tabela "userinteraction" criada ou já existente.');
-
     } catch (err) {
         console.error('Erro ao criar tabelas:', err);
-    } finally {
-        // Fecha a conexão com o banco
-        await pool.end();
-    }
+    } 
 };
 
 createTables();
